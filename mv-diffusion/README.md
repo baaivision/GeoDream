@@ -21,7 +21,7 @@ pip install -r requirements.txt
 | CLIP-ViT-H-14-laion2B-s32B-b79K        | [CLIP-ViT-H-14-laion2B-s32B-b79K](https://huggingface.co/laion/CLIP-ViT-H-14-laion2B-s32B-b79K/tree/main)             | GeoDream/mv-diffusion/MVDream/CLIP-ViT-H-14-laion2B-s32B-b79K
 
 ## run
-### Predict source views by a given prompt
+### Predict source views driven by a given prompt
 ```bash
 conda activate geodream_mv
 cd GeoDream/mv-diffusion

@@ -79,16 +79,23 @@ python mv-diffusion/One-2-3-45/download_ckpt.py
 **If you are experiencing unstable connections with Hugging Face, we suggest you either (1) setting environment variable `TRANSFORMERS_OFFLINE=1 DIFFUSERS_OFFLINE=1 HF_HUB_OFFLINE=1` before your running command after all needed files have been fetched on the first run, to prevent from connecting to Hugging Face each time you run, or (2) downloading the guidance model you used to a local folder following [here](https://huggingface.co/docs/huggingface_hub/v0.14.1/guides/download#download-an-entire-repository) and [here](https://huggingface.co/docs/huggingface_hub/v0.14.1/guides/download#download-files-to-local-folder), and set `pretrained_model_name_or_path` and `pretrained_model_name_or_path_lora` in `configs/geodream-neus.yaml`, `configs/geodream-dmtet-geometry.yaml`, and `configs/geodream-dmtet-texture.yaml` to the local path.**
 
 ## Quickstart
-### Predict source views by a given prompt
+### Predict source views driven by a given prompt
 ```bash
-conda activate mvDiffusion
-sh mv-diffusion/step1-run-mv.sh "An astronaut riding a horse"
+conda activate geodream_mv
+cd ./mv-diffusion
+sh step1-run-mv.sh "An astronaut riding a horse"
 conda deactivate
 ```
+### We also support 3D generation driven by a given reference view with a prompt, which is the content of the next update.
+```bash
+Coming Soon
+```
+
 ### Construct cost volume
 ```bash
 . venv/bin/activate
-sh mv-diffusion/step2-run-volume.sh "An astronaut riding a horse"
+cd ./mv-diffusion
+sh step2-run-volume.sh "An astronaut riding a horse"
 ```
 
 ### GeoDream Training
