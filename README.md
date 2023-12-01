@@ -1,6 +1,6 @@
 <div align='center'>
 
-<h2><a href="https://arxiv.org/abs/2310.06773">GeoDream: Disentangling 2D and Geometric Priors for High-Fidelity and Consistent 3D Generation</a></h2>
+<h2><a href="https://mabaorui.github.io/GeoDream_page/">GeoDream: Disentangling 2D and Geometric Priors for High-Fidelity and Consistent 3D Generation</a></h2>
 
 [Baorui Ma](https://mabaorui.github.io/)<sup>1*</sup>, [Haoge Deng](https://github.com/Bitterdhg/)<sup>2,1*</sup>, [Junsheng Zhou](https://junshengzhou.github.io/)<sup>3,1</sup>, [Yu-Shen Liu](https://yushen-liu.github.io/)<sup>3</sup>, [Tiejun Huang](https://scholar.google.com/citations?user=knvEK4AAAAAJ&hl=en)<sup>1,4</sup>, [Xinlong Wang](https://www.xloong.wang/)<sup>1</sup>
  
@@ -8,7 +8,7 @@
 <sup>*</sup> Equal Contribution
  
 <!-- [Paper](https://arxiv.org/abs/2310.06773) -->
-## [Paper](https://arxiv.org/abs/2310.06773) | [Project page](https://mabaorui.github.io/GeoDream_page/)
+## [Paper](https://arxiv.org/abs/2311.17971) | [Project page](https://mabaorui.github.io/GeoDream_page/)
 
 </div>
 We present GeoDream, a 3D generation method that incorporates explicit generalized 3D priors with 2D diffusion priors to enhance the capability of obtaining unambiguous 3D consistent geometric structures without sacrificing diversity or fidelity. 
@@ -26,9 +26,10 @@ Qualitative comparison with baselines. Back views are highlighted with <b style=
 ## Installation
 Due to environmental conflicts between the pre-trained multi-view diffusion for predicting source views and the code for constructing cost volume, we currently have to use two separate virtual environments. This is inconvenient for researchers, and we are working hard to resolve the conflicts as part of our future update plans.
 ### Install for predicting source views
-```sh
+See [mv-diffusion\README.md](mv-diffusion\README.md) for additional information for install.
+<!-- ```sh
 conda env create -f mv-diffusion/mv-environment.yaml -n mvDiffusion
-```
+``` -->
 ### Installation for constructing cost volume
 
 See [installation.md](docs/installation.md) for additional information, including installation via Docker.
@@ -196,7 +197,7 @@ If you find GeoDream helpful, please consider citing:
 @inproceedings{Ma2023GeoDream,
     title = {GeoDream: Disentangling 2D and Geometric Priors for High-Fidelity and Consistent 3D Generation},
     author = {Baorui Ma and Haoge Deng and Junsheng Zhou and Yu-Shen Liu and Tiejun Huang and Xinlong Wang},
-    journal={arXiv preprint arXiv:},
+    journal={arXiv preprint arXiv:2311.17971},
     year={2023}
 }
 ```
