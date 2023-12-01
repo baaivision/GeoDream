@@ -7,7 +7,6 @@
 <sup>1</sup>[BAAI](https://www.baai.ac.cn/english.html), <sup>2</sup>[BUPT](https://www.bupt.edu.cn/#/), <sup>3</sup>[THU](https://www.tsinghua.edu.cn/en/), <sup>4</sup>[PKU](https://english.pku.edu.cn/) <br>
 <sup>*</sup> Equal Contribution
  
-<!-- [Paper](https://arxiv.org/abs/2310.06773) -->
 ## [Paper](https://arxiv.org/abs/2311.17971) | [Project page](https://mabaorui.github.io/GeoDream_page/)
 
 </div>
@@ -26,7 +25,7 @@ Qualitative comparison with baselines. Back views are highlighted with <b style=
 ## Installation
 Due to environmental conflicts between the pre-trained multi-view diffusion for predicting source views and the code for constructing cost volume, we currently have to use two separate virtual environments. This is inconvenient for researchers, and we are working hard to resolve the conflicts as part of our future update plans.
 ### Install for predicting source views
-See [mv-diffusion\README.md](mv-diffusion\README.md) for additional information for install.
+See [mv-diffusion/README.md](mv-diffusion/README.md) for additional information for install.
 <!-- ```sh
 conda env create -f mv-diffusion/mv-environment.yaml -n mvDiffusion
 ``` -->
