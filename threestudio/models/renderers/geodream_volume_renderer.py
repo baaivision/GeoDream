@@ -127,7 +127,6 @@ class GeodreamVolumeRenderer(VolumeRenderer):
                     stratified=self.randomized,
                     cone_angle=0.0,
                     early_stop_eps=0,
-                    training = self.training,
                 )
         else:
             with torch.no_grad():
@@ -139,7 +138,6 @@ class GeodreamVolumeRenderer(VolumeRenderer):
                     alpha_thre=0.01 if self.cfg.prune_alpha_threshold else 0.0,
                     stratified=self.randomized,
                     cone_angle=0.0,
-                    training = self.training,
                 )
                 
         ray_indices, t_starts_, t_ends_ = validate_empty_rays(
