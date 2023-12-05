@@ -12,7 +12,7 @@
 </div>
 We present GeoDream, a 3D generation method that incorporates explicit generalized 3D priors with 2D diffusion priors to enhance the capability of obtaining unambiguous 3D consistent geometric structures without sacrificing diversity or fidelity. 
 Our numerical and visual comparisons demonstrate that GeoDream generates more 3D consistent textured meshes with high-resolution realistic renderings (i.e., 1024 &times 1024) and adheres more closely to semantic coherence.
-To comprehensively evaluate semantic coherence, to our knowledge, we are the first to propose <b style="color: rgb(255, 0, 0);">Uni3D-score metric</b>, lifting the measurement from 2D to 3D. You can find detailed usage instructions for training GeoDream and evaluation code of 3D metric Uni3D-score below.
+To comprehensively evaluate semantic coherence, to our knowledge, we are the first to propose <b style="color: rgb(255, 0, 0);">Uni3D-score metric</b>, lifting the measurement from 2D to 3D. You can find detailed usage instructions for training GeoDream and evaluation code of 3D metric <a href="https://github.com/baaivision/Uni3D">Uni3D</a>-score below.
 
 
 ![](assets/Fig1-s.jpg)
@@ -148,7 +148,7 @@ python launch.py --config path/to/trial/dir/configs/parsed.yaml --test --gpu 0 r
 # which will continue using the same trial directory
 # if you want to save to a new trial directory, replace parsed.yaml with raw.yaml in the command
 
-# only load weights from saved checkpoint but dont resume training (i.e. dont load optimizer state):
+# only load weights from saved checkpoint but don't resume training (i.e. don't load optimizer state):
 python launch.py --config path/to/trial/dir/configs/parsed.yaml --train --gpu 0 system.weights=path/to/trial/dir/ckpts/last.ckpt
 ```
 
@@ -191,7 +191,7 @@ We are committed to open-sourcing GeoDream related materials, including:
 
 ## Acknowledgement
 
-GeoDream is built using the awesome open-source projects: [Uni3D](https://github.com/baaivision/Uni3D/tree/main), [ThreeStudio](https://github.com/threestudio-project/threestudio), [MVDream](https://github.com/bytedance/MVDream), [One2345](https://github.com/One-2-3-45/One-2-3-45),[Zero123](https://github.com/cvlab-columbia/zero123), [Zero123++](https://github.com/SUDO-AI-3D/zero123plus).
+GeoDream is built using the awesome open-source projects: [Uni3D](https://github.com/baaivision/Uni3D), [ThreeStudio](https://github.com/threestudio-project/threestudio), [MVDream](https://github.com/bytedance/MVDream), [One2345](https://github.com/One-2-3-45/One-2-3-45),[Zero123](https://github.com/cvlab-columbia/zero123), [Zero123++](https://github.com/SUDO-AI-3D/zero123plus).
 
 Thanks to the maintainers of these projects for their contribution to the community!
 
