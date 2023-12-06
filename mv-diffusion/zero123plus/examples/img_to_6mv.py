@@ -43,7 +43,7 @@ pipeline.to('cuda:0')
 
 for img_name in tqdm(img_names):
     # import pdb;pdb.set_trace()
-    cond = Image.open("../img/remove_bg/" + img_name)
+    cond = Image.open("../img/" + img_name)
     result = pipeline(cond, num_inference_steps=75).images[0]
     
     # result.save(f"../result/{img_name.split('.')[0]}_mv.png")

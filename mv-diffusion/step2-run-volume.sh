@@ -21,4 +21,4 @@ fi
 
 cp ../exp/$FILE_NAME/con_volume_lod_150.pth ../../volume/$FILE_NAME/con_volume_lod_150.pth
 
-echo "[Final Save Project Name] : " volume/$FILE_NAME
+echo "[Final Save Project Name] : " GeoDream/mv-diffusion/volume/$FILE_NAME

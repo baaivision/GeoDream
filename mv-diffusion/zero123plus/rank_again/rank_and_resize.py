@@ -96,7 +96,7 @@ for i in range(len(source_names)):
 print('[Zero123 Plus : Resize and remove background...]')
 threshold = 128
 for i in range(40):
-    image = Image.open(f'../result/{img_name}/{i}.png')  # 替换为你的图片文件路径
+    image = Image.open(f'../result/{img_name}/{i}.png')
 
     # resize
     transform = transforms.Compose([
@@ -105,7 +105,7 @@ for i in range(40):
     resized_image = transform(image)
 
     # remove background
-    resized_image.save(f'../result/{img_name}/{i}.png')  # 修改为你想要保存的文件名和路径
+    resized_image.save(f'../result/{img_name}/{i}.png')
     input = cv2.imread(f'../result/{img_name}/{i}.png')
     output = remove(input)
     output = np.array(output)
@@ -126,7 +126,6 @@ for stage in range(1, 3):
     output_dir = f"{output_dir_base}/stage{stage}_8"
     os.makedirs(output_dir, exist_ok=True)
 
-# 移动图片到对应的文件夹
 for filename in os.listdir(image_dir):
     if filename.endswith(".png"):
         index = int(filename.split(".")[0])
