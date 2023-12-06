@@ -12,4 +12,4 @@ CUDA_VISIBLE_DEVICES=0 python run.py \
 --text "$TEXT" \
 --half_precision 
 
-echo "[Cost Volume save at] : " GeoDream/volume/$FILE_NAME
+echo "[Cost Volume save at] : " GeoDream/mv-diffusion/volume/$FILE_NAME

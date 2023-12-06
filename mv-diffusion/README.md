@@ -7,6 +7,9 @@
 conda create --name geodream_mv python=3.8
 conda activate geodream_mv
 pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
+pip install inplace_abn
+sudo apt-get install libsparsehash-dev
+pip install git+https://github.com/mit-han-lab/torchsparse.git@v1.4.0
 pip install -r requirements.txt
 
 ```
