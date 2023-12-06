@@ -88,7 +88,10 @@ conda deactivate
 ```
 ### We also support 3D generation driven by a given reference view with a prompt, which is the content of the next update.
 ```bash
-Coming Soon
+conda activate geodream_mv
+cd GeoDream/mv-diffusion
+sh run-volume-by-view.sh "An astronaut riding a horse" "ref_imges/demo.png"
+conda deactivate
 ```
 
 ### Construct cost volume

@@ -19,13 +19,27 @@ pip install -r requirements.txt
 | zero123plus        | [zero123plus-v1.1](https://huggingface.co/sudo-ai/zero123plus-v1.1/tree/main)             | GeoDream/mv-diffusion/zero123plus/weight/zero123plus-v1.1
 | zero123plus        | [zero123plus-pipeline](https://huggingface.co/sudo-ai/zero123plus-pipeline/tree/main)             | GeoDream/mv-diffusion/zero123plus/weight/zero123plus-pipeline
 | CLIP-ViT-H-14-laion2B-s32B-b79K        | [CLIP-ViT-H-14-laion2B-s32B-b79K](https://huggingface.co/laion/CLIP-ViT-H-14-laion2B-s32B-b79K/tree/main)             | GeoDream/mv-diffusion/MVDream/CLIP-ViT-H-14-laion2B-s32B-b79K
+| Zero123-xl        | [Zero123-xl](https://huggingface.co/laion/CLIP-ViT-H-14-laion2B-s32B-b79K/tree/main)             | GeoDream/mv-diffusion/One-2-3-45-by-view/zero123-xl.ckpt
+| SAM        | [SAM](https://huggingface.co/One-2-3-45/code/resolve/main/sam_vit_h_4b8939.pth)             | GeoDream/mv-diffusion/One-2-3-45-by-view/sam_vit_h_4b8939.pth
 
-## run
-### Predict source views driven by a given prompt
+## Run
+### Construct cost volume by prompt
 ```bash
 conda activate geodream_mv
 cd GeoDream/mv-diffusion
 sh step1-run-mv.sh "An astronaut riding a horse"
+conda deactivate
+
+. venv/bin/activate
+sh step2-run-volume.sh "An astronaut riding a horse"
+```
+---
+
+### Construct cost volume by reference view
+```bash
+conda activate geodream_mv
+cd GeoDream/mv-diffusion
+sh run-volume-by-view.sh "An astronaut riding a horse" "ref_imges/demo.png"
 conda deactivate
 ```
 
