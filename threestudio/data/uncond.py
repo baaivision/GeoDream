@@ -175,20 +175,38 @@ class RandomCameraIterableDataset(IterableDataset, Updateable):
             elevation = elevation_deg * math.pi / 180
         else:
             # otherwise sample uniformly on sphere
+            
+            # elevation_range_percent = [
+            #     (self.elevation_range[0] + 90.0) / 180.0,
+            #     (self.elevation_range[1] + 90.0) / 180.0,
+            # ]# len(elevation_range_percent)=2 elevation_range_percent = [0.4444444444444444, 0.75]
+            # # inverse transform sampling
+            # elevation = torch.asin(
+            #     2
+            #     * (
+            #         torch.rand(self.batch_size)
+            #         * (elevation_range_percent[1] - elevation_range_percent[0])
+            #         + elevation_range_percent[0]
+            #     )
+            #     - 1.0
+            # )#  elevation.shape = [1] elevation = tensor([-0.1103])
+            # elevation_deg = elevation / math.pi * 180.0
+        
             elevation_range_percent = [
-                (self.elevation_range[0] + 90.0) / 180.0,
-                (self.elevation_range[1] + 90.0) / 180.0,
-            ]# len(elevation_range_percent)=2 elevation_range_percent = [0.4444444444444444, 0.75]
+                    self.elevation_range[0] / 180.0 * math.pi,
+                    self.elevation_range[1] / 180.0 * math.pi,
+                ]
             # inverse transform sampling
             elevation = torch.asin(
-                2
-                * (
+                (
                     torch.rand(self.batch_size)
-                    * (elevation_range_percent[1] - elevation_range_percent[0])
-                    + elevation_range_percent[0]
+                    * (
+                        math.sin(elevation_range_percent[1])
+                        - math.sin(elevation_range_percent[0])
+                    )
+                    + math.sin(elevation_range_percent[0])
                 )
-                - 1.0
-            )#  elevation.shape = [1] elevation = tensor([-0.1103])
+            )
             elevation_deg = elevation / math.pi * 180.0
 
         # ------------------------------------------------

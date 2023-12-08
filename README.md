@@ -23,6 +23,10 @@ GeoDream alleviates the Janus problems by incorporating explicit 3D priors with 
 Qualitative comparison with baselines. Back views are highlighted with <b style="color: rgb(255, 0, 0);">**red rectangles**</b> for distinct observation of multiple faces.
 
 ## Installation
+```sh
+git clone https://github.com/baaivision/GeoDream.git
+cd GeoDream
+```
 Due to environmental conflicts between the pre-trained multi-view diffusion for predicting source views and the code for constructing cost volume, we currently have to use two separate virtual environments. This is inconvenient for researchers, and we are working hard to resolve the conflicts as part of our future update plans.
 ### Install for predicting source views
 See [mv-diffusion/README.md](mv-diffusion/README.md) for additional information for install.
@@ -71,14 +75,33 @@ pip install inplace_abn
 FORCE_CUDA=1 pip install --no-cache-dir git+https://github.com/mit-han-lab/torchsparse.git@v1.4.0
 ```
 
-### Download One-2-3-45 and Zero123 pre-trained weight
+<!-- ### Download One-2-3-45 and Zero123 pre-trained weight
 ```bash
 python mv-diffusion/One-2-3-45/download_ckpt.py
-```
+``` -->
 
 **If you are experiencing unstable connections with Hugging Face, we suggest you either (1) setting environment variable `TRANSFORMERS_OFFLINE=1 DIFFUSERS_OFFLINE=1 HF_HUB_OFFLINE=1` before your running command after all needed files have been fetched on the first run, to prevent from connecting to Hugging Face each time you run, or (2) downloading the guidance model you used to a local folder following [here](https://huggingface.co/docs/huggingface_hub/v0.14.1/guides/download#download-an-entire-repository) and [here](https://huggingface.co/docs/huggingface_hub/v0.14.1/guides/download#download-files-to-local-folder), and set `pretrained_model_name_or_path` and `pretrained_model_name_or_path_lora` in `configs/geodream-neus.yaml`, `configs/geodream-dmtet-geometry.yaml`, and `configs/geodream-dmtet-texture.yaml` to the local path.**
 
-## Quickstart
+# Quickstart
+
+These steps required for 3D generation are as follows.
+
+1. Predict source views (Choose one of the following two.)
+      - [Driven by a given prompt](#predict-source-views-driven-by-a-given-prompt)
+      - [Driven by a given reference view with a prompt](#predict-source-views-driven-by-a-given-reference-view-with-a-prompt)
+2. [Construct cost volume](#construct-cost-volume)
+3. [GeoDream Training](#geodream-training)
+
+
+## Predict source views 
+Choose one of the two.
+### Predict source views driven by a given reference view with a prompt
+```bash
+conda activate geodream_mv
+cd GeoDream/mv-diffusion
+sh run-volume-by-view.sh "An astronaut riding a horse" "ref_imges/demo.png"
+conda deactivate
+```
 ### Predict source views driven by a given prompt
 ```bash
 conda activate geodream_mv
@@ -86,22 +109,15 @@ cd ./mv-diffusion
 sh step1-run-mv.sh "An astronaut riding a horse"
 conda deactivate
 ```
-### We also support 3D generation driven by a given reference view with a prompt, which is the content of the next update.
-```bash
-conda activate geodream_mv
-cd GeoDream/mv-diffusion
-sh run-volume-by-view.sh "An astronaut riding a horse" "ref_imges/demo.png"
-conda deactivate
-```
 
-### Construct cost volume
+## Construct cost volume
 ```bash
 . venv/bin/activate
 cd ./mv-diffusion
 sh step2-run-volume.sh "An astronaut riding a horse"
 ```
 
-### GeoDream Training
+## GeoDream Training
 
 **Rendered images obtained from Stage1**
 
