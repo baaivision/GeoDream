@@ -10,7 +10,7 @@ data:
   height: 512
   camera_distance_range: [1.0, 1.25]
   fovy_range: [40, 60]
-  elevation_range: [-50, 10]
+  elevation_range: [-40, 30]
   camera_perturb: 0.
   center_perturb: 0.
   up_perturb: 0.
@@ -73,7 +73,7 @@ system:
       eps: 1.e-15
 
 trainer:
-  max_steps: 5000
+  max_steps: 6500
   log_every_n_steps: 1
   num_sanity_val_steps: 1
   val_check_interval: 500

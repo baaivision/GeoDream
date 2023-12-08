@@ -98,9 +98,10 @@ Choose one of the two.
 ### Predict source views driven by a given reference view with a prompt
 ```bash
 conda activate geodream_mv
-cd GeoDream/mv-diffusion
+cd ./mv-diffusion
 sh run-volume-by-view.sh "An astronaut riding a horse" "ref_imges/demo.png"
 conda deactivate
+cd ..
 ```
 ### Predict source views driven by a given prompt
 ```bash
@@ -108,6 +109,7 @@ conda activate geodream_mv
 cd ./mv-diffusion
 sh step1-run-mv.sh "An astronaut riding a horse"
 conda deactivate
+cd ..
 ```
 
 ## Construct cost volume
