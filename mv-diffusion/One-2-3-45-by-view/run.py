@@ -40,16 +40,25 @@ def stage2_run(model, device, exp_dir,
     else:
         zero123_infer(model, exp_dir, indices=list(range(1,4))+list(range(8,12)), device=device, ddim_steps=stage2_steps, scale=scale)
 
-def reconstruct(exp_dir, text="", output_format=".ply", device_idx=0, resolution=256):
+def reconstruct(exp_dir, text="", output_format=".ply", device_idx=0, 
+    resolution=256, save_vis=False):
     exp_dir = os.path.abspath(exp_dir)
     main_dir_path = os.path.abspath(os.path.dirname("./"))
     os.chdir('reconstruction/')
 
-    bash_script = f'CUDA_VISIBLE_DEVICES={device_idx} python exp_runner_generic_blender_val.py \
-                    --specific_dataset_name {exp_dir} \
-                    --mode export_mesh \
-                    --conf confs/one2345_lod0_val_demo.conf \
-                    --resolution {resolution}'
+    if save_vis:
+        bash_script = f'CUDA_VISIBLE_DEVICES={device_idx} python exp_runner_generic_blender_val.py \
+                        --specific_dataset_name {exp_dir} \
+                        --mode export_mesh \
+                        --conf confs/one2345_lod0_val_demo.conf \
+                        --resolution {resolution} \
+                        --save_vis'
+    else :
+        bash_script = f'CUDA_VISIBLE_DEVICES={device_idx} python exp_runner_generic_blender_val.py \
+                        --specific_dataset_name {exp_dir} \
+                        --mode export_mesh \
+                        --conf confs/one2345_lod0_val_demo.conf \
+                        --resolution {resolution}'
     print(bash_script)
     os.system(bash_script)
     os.chdir(main_dir_path)
@@ -86,6 +95,7 @@ if __name__ == "__main__":
     parser.add_argument('--half_precision', action='store_true', help='Use half precision')
     parser.add_argument('--mesh_resolution', type=int, default=256, help='Mesh resolution')
     parser.add_argument('--output_format', type=str, default=".ply", help='Output format: .ply, .obj, .glb')
+    parser.add_argument('--save_vis', default=False, action="store_true")
 
     args = parser.parse_args()
 
@@ -102,4 +112,5 @@ if __name__ == "__main__":
         text=args.text,
         output_format=args.output_format, 
         device_idx=args.gpu_idx, 
-        resolution=args.mesh_resolution)
+        resolution=args.mesh_resolution,
+        save_vis=args.save_vis)

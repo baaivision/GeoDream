@@ -24,8 +24,8 @@ from data.One2345_eval_new_data import BlenderPerView
 from datetime import datetime
 
 class Runner:
-    def __init__(self, conf_path, mode='train', is_continue=False,
-                 is_restore=False, restore_lod0=False, local_rank=0):
+    def __init__(self, conf_path, mode='train', save_vis=False, 
+    is_continue=False, is_restore=False, restore_lod0=False, local_rank=0):
 
         # Initial setting
         self.device = torch.device('cuda:%d' % local_rank)
@@ -37,6 +37,7 @@ class Runner:
         self.mode = mode
         self.model_list = []
         self.logger = logging.getLogger('exp_logger')
+        self.save_vis = save_vis
 
         print("detected %d GPUs" % self.num_devices)
 
@@ -539,7 +540,6 @@ class Runner:
             alpha_inter_ratio_lod0 = 1.
         alpha_inter_ratio_lod1 = self.get_alpha_inter_ratio(self.anneal_start_lod1, self.anneal_end_lod1)
 
-        # /root/Project/DHG/One-2-3-45/reconstruction/models/trainer_generic.py line 1070
         self.trainer(
             batch,
             background_rgb=background_rgb,
@@ -609,15 +609,24 @@ if __name__ == '__main__':
     parser.add_argument('--local_rank', type=int, default=0)
     parser.add_argument('--specific_dataset_name', type=str, default='GSO')
     parser.add_argument('--resolution', type=int, default=360)
+    parser.add_argument('--save_vis', default=False, action="store_true")
 
 
     args = parser.parse_args()
+    print(args)
 
     torch.cuda.set_device(args.local_rank)
     torch.backends.cudnn.benchmark = True  # ! make training 2x faster
 
-    runner = Runner(args.conf, args.mode, args.is_continue, args.is_restore, args.restore_lod0,
-                    args.local_rank)
+    runner = Runner(
+        args.conf, 
+        args.mode,
+        args.save_vis,
+        args.is_continue, 
+        args.is_restore, 
+        args.restore_lod0,
+        args.local_rank,
+    )
                     
     for i in range(len(runner.val_dataset)):
         runner.export_mesh(resolution=args.resolution)
