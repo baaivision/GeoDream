@@ -585,7 +585,7 @@ class Runner:
             alpha_inter_ratio_lod0=alpha_inter_ratio_lod0,
             alpha_inter_ratio_lod1=alpha_inter_ratio_lod1,
             iter_step=self.iter_step,# 215000
-            save_vis=True,
+            save_vis=self.save_vis,
             mode='export_mesh',
             resolution=resolution,
         )

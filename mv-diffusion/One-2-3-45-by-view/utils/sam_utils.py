@@ -7,7 +7,7 @@ import time
 from segment_anything import sam_model_registry, SamPredictor
 
 def sam_init(device_id=0):
-    sam_checkpoint = os.path.join(os.path.dirname(__file__), "/home/bitterdhg/Code/nerf/Learn/One-2-3-45-master/sam_vit_h_4b8939.pth")
+    sam_checkpoint = os.path.join(os.path.dirname(__file__), "../sam_vit_h_4b8939.pth")
     model_type = "vit_h"
 
     device = "cuda:{}".format(device_id) if torch.cuda.is_available() else "cpu"

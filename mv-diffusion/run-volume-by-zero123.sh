@@ -11,6 +11,6 @@ CUDA_VISIBLE_DEVICES=0 python run.py \
 --img_path $VIEW_PATH \
 --text "$TEXT" \
 --half_precision \
---save_vis
+# --save_vis
 
 echo "[Cost Volume save at] : " GeoDream/mv-diffusion/volume/$FILE_NAME

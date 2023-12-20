@@ -42,7 +42,8 @@ sh step2-run-volume.sh "An astronaut riding a horse"
 ```bash
 conda activate geodream_mv
 cd GeoDream/mv-diffusion
-sh run-volume-by-view.sh "An astronaut riding a horse" "ref_imges/demo.png"
+# use zero123
+sh run-volume-by-zero123 "An astronaut riding a horse" "ref_imges/demo.png"
 conda deactivate
 ```
 

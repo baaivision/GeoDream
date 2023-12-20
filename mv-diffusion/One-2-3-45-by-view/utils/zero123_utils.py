@@ -16,7 +16,7 @@ from torchvision import transforms
 
 def load_model_from_config(config, ckpt, device, verbose=False):
     print(f'Loading model from {ckpt}')
-    pl_sd = torch.load("/home/bitterdhg/Code/nerf/Learn/One-2-3-45-master/zero123-xl.ckpt", map_location='cpu')
+    pl_sd = torch.load("zero123-xl.ckpt", map_location='cpu')
     if 'global_step' in pl_sd:
         print(f'Global Step: {pl_sd["global_step"]}')
     sd = pl_sd['state_dict']
@@ -47,9 +47,9 @@ def init_model(device, ckpt, half_precision=False):
         models['turncam'] = torch.compile(load_model_from_config(config, ckpt, device=device))
     print('Instantiating StableDiffusionSafetyChecker...')
     models['nsfw'] = StableDiffusionSafetyChecker.from_pretrained(
-        '/home/bitterdhg/Code/nerf/Learn/One-2-3-45-master/weight/stable-diffusion-safety-checker').to(device)
+        'CompVis/stable-diffusion-safety-checker').to(device)
     models['clip_fe'] = CLIPImageProcessor.from_pretrained(
-        "/home/bitterdhg/Code/nerf/Learn/One-2-3-45-master/weight/clip-vit-large-patch14")
+        "openai/clip-vit-large-patch14")
     # We multiply all by some factor > 1 to make them less likely to be triggered.
     models['nsfw'].concept_embeds_weights *= 1.2
     models['nsfw'].special_care_embeds_weights *= 1.2
