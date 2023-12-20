@@ -106,9 +106,9 @@ Choose one of the two.
 ```bash
 conda activate geodream_mv
 cd ./mv-diffusion
-sh run-volume-by-zero123 "An astronaut riding a horse" "ref_imges/demo.png"
+sh run-volume-by-zero123.sh "An astronaut riding a horse" "ref_imges/demo.png"
 # Defaulting to use Zero123. If the generated results are not satisfactory, consider using Stable Zero123.
-sh run-volume-by-sd-zero123 "An astronaut riding a horse" "ref_imges/demo.png"
+sh run-volume-by-sd-zero123.sh "An astronaut riding a horse" "ref_imges/demo.png"
 conda deactivate
 cd ..
 ```
