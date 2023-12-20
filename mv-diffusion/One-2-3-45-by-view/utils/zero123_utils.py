@@ -16,7 +16,7 @@ from torchvision import transforms
 
 def load_model_from_config(config, ckpt, device, verbose=False):
     print(f'Loading model from {ckpt}')
-    pl_sd = torch.load("zero123-xl.ckpt", map_location='cpu')
+    pl_sd = torch.load(ckpt, map_location='cpu')
     if 'global_step' in pl_sd:
         print(f'Global Step: {pl_sd["global_step"]}')
     sd = pl_sd['state_dict']
@@ -57,14 +57,22 @@ def init_model(device, ckpt, half_precision=False):
     return models
 
 @torch.no_grad()
-def sample_model_batch(model, sampler, input_im, xs, ys, n_samples=4, precision='autocast', ddim_eta=1.0, ddim_steps=75, scale=3.0, h=256, w=256):# xs=[0, 0, 0, 0] ys=[0, 90, 180, 270]
+def sample_model_batch(args, model, sampler, input_im, xs, ys, n_samples=4, precision='autocast', ddim_eta=1.0, ddim_steps=75, scale=3.0, h=256, w=256):# xs=[0, 0, 0, 0] ys=[0, 90, 180, 270]
     precision_scope = autocast if precision == 'autocast' else nullcontext
     with precision_scope("cuda"):
         with model.ema_scope():
             c = model.get_learned_conditioning(input_im).tile(n_samples, 1, 1)
             T = []
+            # T matrix
+            # import pdb;pdb.set_trace()
             for x, y in zip(xs, ys):
-                T.append([np.radians(x), np.sin(np.radians(y)), np.cos(np.radians(y)), 0])
+                T.append(
+                    [
+                        np.radians(x), 
+                        np.sin(np.radians(y)), 
+                        np.cos(np.radians(y)), 
+                        0 if args.model_type == "zero123" else np.radians(90)
+                    ])
             T = torch.tensor(np.array(T))[:, None, :].float().to(c.device)
             c = torch.cat([c, T], dim=-1)
             c = model.cc_projection(c)
@@ -98,7 +106,7 @@ def sample_model_batch(model, sampler, input_im, xs, ys, n_samples=4, precision=
             return ret_imgs
 
 @torch.no_grad()
-def predict_stage1_gradio(model, raw_im, save_path = "", adjust_set=[], device="cuda", ddim_steps=75, scale=3.0):
+def predict_stage1_gradio(args, model, raw_im, save_path = "", adjust_set=[], device="cuda", ddim_steps=75, scale=3.0):
     # import pdb;pdb.set_trace()
     # raw_im = raw_im.resize([256, 256], Image.LANCZOS)
     # input_im_init = preprocess_image(models, raw_im, preprocess=False)
@@ -114,11 +122,11 @@ def predict_stage1_gradio(model, raw_im, save_path = "", adjust_set=[], device="
     sampler = DDIMSampler(model)
     # sampler.to(device)
     if adjust_set != []:
-        x_samples_ddims_8 = sample_model_batch(model, sampler, input_im, 
+        x_samples_ddims_8 = sample_model_batch(args, model, sampler, input_im, 
                                                [delta_x_1_8[i] for i in adjust_set], [delta_y_1_8[i] for i in adjust_set], 
                                                n_samples=len(adjust_set), ddim_steps=ddim_steps, scale=scale)
     else:
-        x_samples_ddims_8 = sample_model_batch(model, sampler, input_im, delta_x_1_8, delta_y_1_8, n_samples=len(delta_x_1_8), ddim_steps=ddim_steps, scale=scale)
+        x_samples_ddims_8 = sample_model_batch(args, model, sampler, input_im, delta_x_1_8, delta_y_1_8, n_samples=len(delta_x_1_8), ddim_steps=ddim_steps, scale=scale)
     sample_idx = 0
     for stage1_idx in range(len(delta_x_1_8)):
         if adjust_set != [] and stage1_idx not in adjust_set:
@@ -134,7 +142,7 @@ def predict_stage1_gradio(model, raw_im, save_path = "", adjust_set=[], device="
     torch.cuda.empty_cache()
     return ret_imgs
 
-def infer_stage_2(model, save_path_stage1, save_path_stage2, delta_x_2, delta_y_2, indices, device, ddim_steps=75, scale=3.0):
+def infer_stage_2(args, model, save_path_stage1, save_path_stage2, delta_x_2, delta_y_2, indices, device, ddim_steps=75, scale=3.0):
     for stage1_idx in indices:
         # save stage 1 image
         # x_sample = 255.0 * rearrange(x_samples_ddims[stage1_idx].cpu().numpy(), 'c h w -> h w c')
@@ -152,7 +160,7 @@ def infer_stage_2(model, save_path_stage1, save_path_stage2, delta_x_2, delta_y_
         sampler = DDIMSampler(model)
         # sampler.to(device)
         # stage2_in = x_samples_ddims[stage1_idx][None, ...].to(device) * 2 - 1
-        x_samples_ddims_stage2 = sample_model_batch(model, sampler, input_im, delta_x_2, delta_y_2, n_samples=len(delta_x_2), ddim_steps=ddim_steps, scale=scale)
+        x_samples_ddims_stage2 = sample_model_batch(args, model, sampler, input_im, delta_x_2, delta_y_2, n_samples=len(delta_x_2), ddim_steps=ddim_steps, scale=scale)
         for stage2_idx in range(len(delta_x_2)):
             x_sample_stage2 = 255.0 * rearrange(x_samples_ddims_stage2[stage2_idx].numpy(), 'c h w -> h w c')
             Image.fromarray(x_sample_stage2.astype(np.uint8)).save(os.path.join(save_path_stage2, '%d_%d.png'%(stage1_idx, stage2_idx)))
@@ -160,7 +168,7 @@ def infer_stage_2(model, save_path_stage1, save_path_stage2, delta_x_2, delta_y_
         del x_samples_ddims_stage2
         torch.cuda.empty_cache()
 
-def zero123_infer(model, input_dir_path, start_idx=0, end_idx=12, indices=None, device="cuda", ddim_steps=75, scale=3.0):
+def zero123_infer(args, model, input_dir_path, start_idx=0, end_idx=12, indices=None, device="cuda", ddim_steps=75, scale=3.0):
     # input_img_path = os.path.join(input_dir_path, "input_256.png")
     save_path_8 = os.path.join(input_dir_path, "stage1_8")
     save_path_8_2 = os.path.join(input_dir_path, "stage2_8")
@@ -176,4 +184,4 @@ def zero123_infer(model, input_dir_path, start_idx=0, end_idx=12, indices=None, 
     delta_x_2 = [-10, 10, 0, 0]
     delta_y_2 = [0, 0, -10, 10]
     
-    infer_stage_2(model, save_path_8, save_path_8_2, delta_x_2, delta_y_2, indices=indices if indices else list(range(start_idx,end_idx)), device=device, ddim_steps=ddim_steps, scale=scale)
+    infer_stage_2(args, model, save_path_8, save_path_8_2, delta_x_2, delta_y_2, indices=indices if indices else list(range(start_idx,end_idx)), device=device, ddim_steps=ddim_steps, scale=scale)

@@ -8,6 +8,7 @@ echo "[Reference View Path] GeoDream/mv-diffusion/One-2-3-45-by-view/"$VIEW_PATH
 
 cd One-2-3-45-by-view
 CUDA_VISIBLE_DEVICES=0 python run.py \
+--model_type "zero123" \
 --img_path $VIEW_PATH \
 --text "$TEXT" \
 --half_precision \

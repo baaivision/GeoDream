@@ -23,6 +23,7 @@ pip install -r requirements.txt
 | zero123plus        | [zero123plus-pipeline](https://huggingface.co/sudo-ai/zero123plus-pipeline/tree/main)             | GeoDream/mv-diffusion/zero123plus/weight/zero123plus-pipeline
 | CLIP-ViT-H-14-laion2B-s32B-b79K        | [CLIP-ViT-H-14-laion2B-s32B-b79K](https://huggingface.co/laion/CLIP-ViT-H-14-laion2B-s32B-b79K/tree/main)             | GeoDream/mv-diffusion/MVDream/CLIP-ViT-H-14-laion2B-s32B-b79K
 | Zero123-xl        | [Zero123-xl](https://huggingface.co/laion/CLIP-ViT-H-14-laion2B-s32B-b79K/tree/main)             | GeoDream/mv-diffusion/One-2-3-45-by-view/zero123-xl.ckpt
+| Stable-zero123        | [Stable-zero123](https://huggingface.co/stabilityai/stable-zero123/tree/main)             | GeoDream/mv-diffusion/One-2-3-45-by-view/stable_zero123.ckpt
 | SAM        | [SAM](https://huggingface.co/One-2-3-45/code/resolve/main/sam_vit_h_4b8939.pth)             | GeoDream/mv-diffusion/One-2-3-45-by-view/sam_vit_h_4b8939.pth
 
 ## Run
@@ -42,8 +43,12 @@ sh step2-run-volume.sh "An astronaut riding a horse"
 ```bash
 conda activate geodream_mv
 cd GeoDream/mv-diffusion
-# use zero123
-sh run-volume-by-zero123 "An astronaut riding a horse" "ref_imges/demo.png"
+# use zero123 
+# Note : you should download `Zero123-xl` and `SAM`
+sh run-volume-by-zero123.sh "An astronaut riding a horse" "ref_imges/demo.png"
+# use stabale-zero123
+# Note : you should download `Stable-zero123` and `SAM`
+sh run-volume-by-sd-zero123.sh "An astronaut riding a horse" "ref_imges/demo.png"
 conda deactivate
 ```
 

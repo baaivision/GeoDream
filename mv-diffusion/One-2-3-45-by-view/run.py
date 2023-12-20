@@ -16,29 +16,28 @@ def preprocess(predictor, raw_im, lower_contrast=False):
     torch.cuda.empty_cache()
     return input_256
 
-def stage1_run(model, device, exp_dir,
-               input_im, scale, ddim_steps):
+def stage1_run(args, model, device, exp_dir, input_im, scale, ddim_steps):
     stage1_dir = os.path.join(exp_dir, "stage1_8")
     os.makedirs(stage1_dir, exist_ok=True)
 
-    output_ims = predict_stage1_gradio(model, input_im, save_path=stage1_dir, adjust_set=list(range(4)), device=device, ddim_steps=ddim_steps, scale=scale)
+    output_ims = predict_stage1_gradio(args, model, input_im, save_path=stage1_dir, adjust_set=list(range(4)), device=device, ddim_steps=ddim_steps, scale=scale)
 
     stage2_steps = 50
-    zero123_infer(model, exp_dir, indices=[0], device=device, ddim_steps=stage2_steps, scale=scale)
+    zero123_infer(args, model, exp_dir, indices=[0], device=device, ddim_steps=stage2_steps, scale=scale)
 
     polar_angle = 90
     gen_poses(exp_dir, polar_angle)
 
-    output_ims_2 = predict_stage1_gradio(model, input_im, save_path=stage1_dir, adjust_set=list(range(8,12)), device=device, ddim_steps=ddim_steps, scale=scale)
+    output_ims_2 = predict_stage1_gradio(args, model, input_im, save_path=stage1_dir, adjust_set=list(range(8,12)), device=device, ddim_steps=ddim_steps, scale=scale)
     torch.cuda.empty_cache()
     return 90-polar_angle, output_ims+output_ims_2
     
-def stage2_run(model, device, exp_dir,
+def stage2_run(args, model, device, exp_dir,
                elev, scale, stage2_steps=50):
     if 90-elev <= 75:
-        zero123_infer(model, exp_dir, indices=list(range(1,8)), device=device, ddim_steps=stage2_steps, scale=scale)
+        zero123_infer(args, model, exp_dir, indices=list(range(1,8)), device=device, ddim_steps=stage2_steps, scale=scale)
     else:
-        zero123_infer(model, exp_dir, indices=list(range(1,4))+list(range(8,12)), device=device, ddim_steps=stage2_steps, scale=scale)
+        zero123_infer(args, model, exp_dir, indices=list(range(1,4))+list(range(8,12)), device=device, ddim_steps=stage2_steps, scale=scale)
 
 def reconstruct(exp_dir, text="", output_format=".ply", device_idx=0, 
     resolution=256, save_vis=False):
@@ -75,7 +74,14 @@ def reconstruct(exp_dir, text="", output_format=".ply", device_idx=0,
 
 def predict_multiview(shape_dir, args):
     device = f"cuda:{args.gpu_idx}"
-    models = init_model(device, 'zero123-xl.ckpt', half_precision=args.half_precision)
+    if args.model_type == "zero123":
+        models = init_model(device, 'zero123-xl.ckpt', half_precision=args.half_precision)
+    elif args.model_type == "sd-zero123":
+        models = init_model(device, 'stable_zero123.ckpt', half_precision=args.half_precision)
+    else :
+        raise ValueError(
+            f"Current weight type {args.model_type} is not supported")
+
     model_zero123 = models["turncam"]
     
     predictor = sam_init(args.gpu_idx)
@@ -83,8 +89,8 @@ def predict_multiview(shape_dir, args):
 
     input_256 = preprocess(predictor, input_raw)
 
-    elev, stage1_imgs = stage1_run(model_zero123, device, shape_dir, input_256, scale=3, ddim_steps=75)
-    stage2_run(model_zero123, device, shape_dir, elev, scale=3, stage2_steps=50)
+    elev, stage1_imgs = stage1_run(args, model_zero123, device, shape_dir, input_256, scale=3, ddim_steps=75)
+    stage2_run(args, model_zero123, device, shape_dir, elev, scale=3, stage2_steps=50)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Process some integers.')
@@ -95,6 +101,7 @@ if __name__ == "__main__":
     parser.add_argument('--half_precision', action='store_true', help='Use half precision')
     parser.add_argument('--mesh_resolution', type=int, default=256, help='Mesh resolution')
     parser.add_argument('--output_format', type=str, default=".ply", help='Output format: .ply, .obj, .glb')
+    parser.add_argument('--model_type', type=str, default="zero123", help='model type : stable-zero123 or zero123')
     parser.add_argument('--save_vis', default=False, action="store_true")
 
     args = parser.parse_args()
