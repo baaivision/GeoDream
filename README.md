@@ -9,7 +9,7 @@
  
 ## [Paper](https://arxiv.org/abs/2311.17971) | [Project page](https://mabaorui.github.io/GeoDream_page/)
 
-</div>
+
 This is GeoDream extension of [threestudio](https://github.com/threestudio-project/threestudio). The original implementation can be found [at the master branch](https://github.com/baaivision/GeoDream/tree/master). To use it, please install threestudio first and then install this extension in threestudio custom directory.
 
 <!-- **NOTE**: The backbone (4D hash grid) and some hyperparameters of this implementation differ from those of the original one, so the results might be different.  -->
@@ -24,7 +24,7 @@ mv GeoDream threestudio-geodream
 ```
 
 
-
+</div>
 We present GeoDream, a 3D generation method that incorporates explicit generalized 3D priors with 2D diffusion priors to enhance the capability of obtaining unambiguous 3D consistent geometric structures without sacrificing diversity or fidelity. 
 Our numerical and visual comparisons demonstrate that GeoDream generates more 3D consistent textured meshes with high-resolution realistic renderings (i.e., 1024 &times 1024) and adheres more closely to semantic coherence.
 To comprehensively evaluate semantic coherence, to our knowledge, we are the first to propose <b style="color: rgb(255, 0, 0);">Uni3D-score metric</b>, lifting the measurement from 2D to 3D. You can find detailed usage instructions for training GeoDream and evaluation code of 3D metric <a href="https://github.com/baaivision/Uni3D">Uni3D</a>-score below.
