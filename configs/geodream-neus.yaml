@@ -3,7 +3,7 @@ tag: "${rmspace:${system.prompt_processor.prompt},_}"
 exp_root_dir: "outputs"
 seed: 0
 
-data_type: "random-camera-datamodule"
+data_type: "random-camera-datamodule-geodream"
 data:
   batch_size: [1, 1]
   # 0-4999: 64x64, >=5000: 512x512
@@ -45,7 +45,7 @@ system:
     init_volume_path: ???
     sdf_network_grad: false
     # one2345_weight: one2345_weight/ckpt_215000.pth
-    one2345_weight: mv-diffusion/One-2-3-45/reconstruction/exp/lod0/checkpoints/ckpt_215000.pth
+    one2345_weight: /home/mabaorui2023/camera-poses-utils/github/mv-diffusion/One-2-3-45/reconstruction/exp/lod0/checkpoints/ckpt_215000.pth
 
   material_type: "no-material"
   material:
@@ -67,8 +67,8 @@ system:
   prompt_processor:
     # If you are experiencing unstable connections with Hugging Face
     # please set 'pretrained_model_name_or_path' and 'pretrained_model_name_or_path_lora' to your downloaded guidance model local path
-    # pretrained_model_name_or_path: "/share/project/denghaoge/threestudio-main/proficdreamer_weight/stabilityai/stable-diffusion-2-1-base"
-    pretrained_model_name_or_path: "stabilityai/stable-diffusion-2-1-base"
+    pretrained_model_name_or_path: "/share/project/denghaoge/threestudio-main/proficdreamer_weight/stabilityai/stable-diffusion-2-1-base"
+    # pretrained_model_name_or_path: "stabilityai/stable-diffusion-2-1-base"
     prompt: ???
     front_threshold: 20.
     back_threshold: 40.
@@ -76,10 +76,10 @@ system:
 
   guidance_type: "stable-diffusion-vsd-guidance"
   guidance:
-    # pretrained_model_name_or_path: "/share/project/denghaoge/threestudio-main/proficdreamer_weight/stabilityai/stable-diffusion-2-1-base"
-    # pretrained_model_name_or_path_lora: "/share/project/denghaoge/threestudio-main/proficdreamer_weight/stabilityai/stable-diffusion-2-1"
-    pretrained_model_name_or_path: "stabilityai/stable-diffusion-2-1-base"
-    pretrained_model_name_or_path_lora: "stabilityai/stable-diffusion-2-1"
+    pretrained_model_name_or_path: "/share/project/denghaoge/threestudio-main/proficdreamer_weight/stabilityai/stable-diffusion-2-1-base"
+    pretrained_model_name_or_path_lora: "/share/project/denghaoge/threestudio-main/proficdreamer_weight/stabilityai/stable-diffusion-2-1"
+    # pretrained_model_name_or_path: "stabilityai/stable-diffusion-2-1-base"
+    # pretrained_model_name_or_path_lora: "stabilityai/stable-diffusion-2-1"
     guidance_scale: 7.5
     min_step_percent: 0.02
     max_step_percent: [15000, 0.98, 0.5, 15001] # annealed to 0.5 after 5000 steps

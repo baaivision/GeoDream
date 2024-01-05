@@ -10,6 +10,21 @@
 ## [Paper](https://arxiv.org/abs/2311.17971) | [Project page](https://mabaorui.github.io/GeoDream_page/)
 
 </div>
+This is GeoDream extension of [threestudio](https://github.com/threestudio-project/threestudio). The original implementation can be found [at the master branch](https://github.com/baaivision/GeoDream/tree/master). To use it, please install threestudio first and then install this extension in threestudio custom directory.
+
+<!-- **NOTE**: The backbone (4D hash grid) and some hyperparameters of this implementation differ from those of the original one, so the results might be different.  -->
+
+## Installation
+
+```sh
+cd custom
+git clone -b threestudio https://github.com/baaivision/GeoDream.git
+mv GeoDream threestudio-geodream
+
+```
+
+
+
 We present GeoDream, a 3D generation method that incorporates explicit generalized 3D priors with 2D diffusion priors to enhance the capability of obtaining unambiguous 3D consistent geometric structures without sacrificing diversity or fidelity. 
 Our numerical and visual comparisons demonstrate that GeoDream generates more 3D consistent textured meshes with high-resolution realistic renderings (i.e., 1024 &times 1024) and adheres more closely to semantic coherence.
 To comprehensively evaluate semantic coherence, to our knowledge, we are the first to propose <b style="color: rgb(255, 0, 0);">Uni3D-score metric</b>, lifting the measurement from 2D to 3D. You can find detailed usage instructions for training GeoDream and evaluation code of 3D metric <a href="https://github.com/baaivision/Uni3D">Uni3D</a>-score below.
@@ -143,22 +158,22 @@ Note: we compress these motion pictures for faster previewing.
 ```sh
 # --------- Stage 1 (NeuS) --------- #
 # object generation with 512x512 NeuS rendering, ~25GB VRAM
-python launch.py --config configs/geodream-neus.yaml --train --gpu 0 system.prompt_processor.prompt="an astronaut riding a horse" system.geometry.init_volume_path="mv-diffusion/volume/An_astronaut_riding_a_horse/con_volume_lod_150.pth"
+python launch.py --config custom/threestudio-geodream/configs/geodream-neus.yaml --train --gpu 0 system.prompt_processor.prompt="an astronaut riding a horse" system.geometry.init_volume_path="mv-diffusion/volume/An_astronaut_riding_a_horse/con_volume_lod_150.pth"
 # if you don't have enough VRAM, try training with 64x64 NeuS rendering, ~15GB VRAM
-python launch.py --config configs/geodream-neus.yaml --train --gpu 0 system.prompt_processor.prompt="an astronaut riding a horse" system.geometry.init_volume_path="data/con_volume_lod_150.pth" data.width=64 data.height=64
+python launch.py --config custom/threestudio-geodream/configs/geodream-neus.yaml --train --gpu 0 system.prompt_processor.prompt="an astronaut riding a horse" system.geometry.init_volume_path="data/con_volume_lod_150.pth" data.width=64 data.height=64
 # using the same model for pretrained and LoRA enables 64x64 training with <10GB VRAM
 # but the quality is worse due to the use of an epsilon prediction model for LoRA training
-python launch.py --config configs/geodream-neus.yaml --train --gpu 0 system.prompt_processor.prompt="an astronaut riding a horse" system.geometry.init_volume_path="data/con_volume_lod_150.pth" data.width=64 data.height=64 system.guidance.pretrained_model_name_or_path_lora="stabilityai/stable-diffusion-2-1-base"
+python launch.py --config custom/threestudio-geodream/configs/geodream-neus.yaml --train --gpu 0 system.prompt_processor.prompt="an astronaut riding a horse" system.geometry.init_volume_path="data/con_volume_lod_150.pth" data.width=64 data.height=64 system.guidance.pretrained_model_name_or_path_lora="stabilityai/stable-diffusion-2-1-base"
 
 # --------- Stage 2 (DMTet Geometry Refinement) --------- #
 # refine geometry
-python launch.py --config configs/geodream-dmtet-geometry.yaml --train system.geometry_convert_from=path/to/stage1/trial/dir/ckpts/last.ckpt --gpu 0 system.prompt_processor.prompt="an astronaut riding a horse" system.renderer.context_type=cuda system.geometry_convert_override.isosurface_threshold=0.0
+python launch.py --config custom/threestudio-geodream/configs/geodream-dmtet-geometry.yaml --train system.geometry_convert_from=path/to/stage1/trial/dir/ckpts/last.ckpt --gpu 0 system.prompt_processor.prompt="an astronaut riding a horse" system.renderer.context_type=cuda system.geometry_convert_override.isosurface_threshold=0.0
 
 # --------- Stage 3 (DMTet Texturing) --------- #
 # texturing with 1024x1024 rasterization, Stable Diffusion VSD guidance, ~20GB VRAM
-python launch.py --config configs/geodream-dmtet-texture.yaml system.geometry.isosurface_resolution=256 --train data.batch_size=2 system.renderer.context_type=cuda --gpu 0 system.geometry_convert_from=path/to/stage2/trial/dir/ckpts/last.ckpt system.prompt_processor.prompt="an astronaut riding a horse"
+python launch.py --config custom/threestudio-geodream/configs/geodream-dmtet-texture.yaml system.geometry.isosurface_resolution=256 --train data.batch_size=2 system.renderer.context_type=cuda --gpu 0 system.geometry_convert_from=path/to/stage2/trial/dir/ckpts/last.ckpt system.prompt_processor.prompt="an astronaut riding a horse"
 # if you don't have enough VRAM, try training with batch_size=1, ~10GB VRAM
-python launch.py --config configs/geodream-dmtet-texture.yaml system.geometry.isosurface_resolution=256 --train data.batch_size=1 system.renderer.context_type=cuda --gpu 0 system.geometry_convert_from=path/to/stage2/trial/dir/ckpts/last.ckpt system.prompt_processor.prompt="an astronaut riding a horse"
+python launch.py --config custom/threestudio-geodream/configs/geodream-dmtet-texture.yaml system.geometry.isosurface_resolution=256 --train data.batch_size=1 system.renderer.context_type=cuda --gpu 0 system.geometry_convert_from=path/to/stage2/trial/dir/ckpts/last.ckpt system.prompt_processor.prompt="an astronaut riding a horse"
 ```
 
 We also provide corresponding scripts for researchers to reference: `neus-train.sh` corresponds to stage 1,  `mesh-finetuning-geo.sh` and `mesh-finetuning-texture.sh` corresponds to stage 2 and 3.
