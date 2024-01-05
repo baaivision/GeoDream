@@ -10,7 +10,7 @@
 ## [Paper](https://arxiv.org/abs/2311.17971) | [Project page](https://mabaorui.github.io/GeoDream_page/)
 
 
-This is GeoDream extension of [threestudio](https://github.com/threestudio-project/threestudio). The original implementation can be found [at the master branch](https://github.com/baaivision/GeoDream/tree/master). To use it, please install threestudio first and then install this extension in threestudio custom directory.
+This is GeoDream extension of <a href="https://github.com/threestudio-project/threestudio"> threestudio</a>. The original implementation can be found <a href="https://github.com/baaivision/GeoDream/tree/master">at the master branch</a>. To use it, please install threestudio first and then install this extension in threestudio custom directory.
 
 <!-- **NOTE**: The backbone (4D hash grid) and some hyperparameters of this implementation differ from those of the original one, so the results might be different.  -->
 
@@ -38,6 +38,9 @@ GeoDream alleviates the Janus problems by incorporating explicit 3D priors with 
 Qualitative comparison with baselines. Back views are highlighted with <b style="color: rgb(255, 0, 0);">**red rectangles**</b> for distinct observation of multiple faces.
 
 ## News
+**[1/5/2024]**
+Add support for GeoDream extension of [ThreeStudio](https://github.com/threestudio-project/threestudio).
+
 **[12/20/2023]**
 Add support for [Stable-Zero123](https://stability.ai/news/stable-zero123-3d-generation). Follow the instructions [here](#predict-source-views-driven-by-a-given-reference-view-with-a-prompt) to give it a try.
 
