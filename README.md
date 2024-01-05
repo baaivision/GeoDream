@@ -2,7 +2,7 @@
 
 <h2><a href="https://mabaorui.github.io/GeoDream_page/">GeoDream: Disentangling 2D and Geometric Priors for High-Fidelity and Consistent 3D Generation</a></h2>
 
-[Baorui Ma](https://mabaorui.github.io)<sup>1*</sup>, [Haoge Deng](https://github.com/Bitterdhg/)<sup>2,1*</sup>, [Junsheng Zhou](https://junshengzhou.github.io/)<sup>3,1</sup>, [Yu-Shen Liu](https://yushen-liu.github.io/)<sup>3</sup>, [Tiejun Huang](https://scholar.google.com/citations?user=knvEK4AAAAAJ&hl=en)<sup>1,4</sup>, [Xinlong Wang](https://www.xloong.wang/)<sup>1</sup>
+[Baorui Ma](https://mabaorui.github.io)<sup>1*</sup>, [Haoge Deng](https://github.com/Bitterdhg)<sup>2,1*</sup>, [Junsheng Zhou](https://junshengzhou.github.io/)<sup>3,1</sup>, [Yu-Shen Liu](https://yushen-liu.github.io/)<sup>3</sup>, [Tiejun Huang](https://scholar.google.com/citations?user=knvEK4AAAAAJ&hl=en)<sup>1,4</sup>, [Xinlong Wang](https://www.xloong.wang/)<sup>1</sup>
  
 <sup>1</sup>[BAAI](https://www.baai.ac.cn/english.html), <sup>2</sup>[BUPT](https://www.bupt.edu.cn/#/), <sup>3</sup>[THU](https://www.tsinghua.edu.cn/en/), <sup>4</sup>[PKU](https://english.pku.edu.cn/) <br>
 <sup>*</sup> Equal Contribution
