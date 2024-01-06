@@ -23,6 +23,10 @@ GeoDream alleviates the Janus problems by incorporating explicit 3D priors with 
 Qualitative comparison with baselines. Back views are highlighted with <b style="color: rgb(255, 0, 0);">**red rectangles**</b> for distinct observation of multiple faces.
 
 ## News
+**[1/5/2024]**
+Add support for GeoDream extension of [ThreeStudio](https://github.com/threestudio-project/threestudio). The extension implementation can be found <a href="https://github.com/baaivision/GeoDream/tree/threestudio">at the threestudio branch</a>.
+
+
 **[12/20/2023]**
 Add support for [Stable-Zero123](https://stability.ai/news/stable-zero123-3d-generation). Follow the instructions [here](#predict-source-views-driven-by-a-given-reference-view-with-a-prompt) to give it a try.
 
