@@ -271,9 +271,9 @@ class TetrahedraSDFGridGeoDream(BaseExplicitGeometry):
         cfg: Optional[Union[dict, DictConfig]] = None,
         copy_net: bool = True,
         **kwargs,
-    ) -> "TetrahedraSDFGrid":
-        if isinstance(other, TetrahedraSDFGrid):
-            instance = TetrahedraSDFGrid(cfg, **kwargs)
+    ) -> "TetrahedraSDFGridGeoDream":
+        if isinstance(other, TetrahedraSDFGridGeoDream):
+            instance = TetrahedraSDFGridGeoDream(cfg, **kwargs)
             assert instance.cfg.isosurface_resolution == other.cfg.isosurface_resolution
             instance.isosurface_bbox = other.isosurface_bbox.clone()
             instance.sdf.data = other.sdf.data.clone()
@@ -296,7 +296,7 @@ class TetrahedraSDFGridGeoDream(BaseExplicitGeometry):
                 )
             return instance
         elif isinstance(other, ImplicitVolume):
-            instance = TetrahedraSDFGrid(cfg, **kwargs)
+            instance = TetrahedraSDFGridGeoDream(cfg, **kwargs)
             if other.cfg.isosurface_method != "mt":
                 other.cfg.isosurface_method = "mt"
                 threestudio.warn(
@@ -319,7 +319,7 @@ class TetrahedraSDFGridGeoDream(BaseExplicitGeometry):
                 )
             return instance
         elif isinstance(other, ImplicitSDF) or isinstance(other, GeodreamGeometryVolume):
-            instance = TetrahedraSDFGrid(cfg, **kwargs)
+            instance = TetrahedraSDFGridGeoDream(cfg, **kwargs)
             if other.cfg.isosurface_method != "mt":
                 other.cfg.isosurface_method = "mt"
                 threestudio.warn(
@@ -349,7 +349,7 @@ class TetrahedraSDFGridGeoDream(BaseExplicitGeometry):
             return instance
         else:
             raise TypeError(
-                f"Cannot create {TetrahedraSDFGrid.__name__} from {other.__class__.__name__}"
+                f"Cannot create {TetrahedraSDFGridGeoDream.__name__} from {other.__class__.__name__}"
             )
 
     def export(self, points: Float[Tensor, "*N Di"], **kwargs) -> Dict[str, Any]:

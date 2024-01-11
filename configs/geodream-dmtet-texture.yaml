@@ -27,7 +27,7 @@ system:
   geometry_type: "tetrahedra-sdf-grid-geodream"
   geometry:
     radius: 1.0 # consistent with last stage
-    isosurface_resolution: 256 # consistent with last stage
+    isosurface_resolution: 128 # consistent with last stage
     isosurface_deformable_grid: true
     isosurface_remove_outliers: true
     pos_encoding_config:
