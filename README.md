@@ -83,6 +83,7 @@ pip install ninja
 ```sh
 pip install -r requirements.txt
 pip install inplace_abn
+apt-get install libsparsehash-dev
 FORCE_CUDA=1 pip install --no-cache-dir git+https://github.com/mit-han-lab/torchsparse.git@v1.4.0
 ```
 
