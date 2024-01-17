@@ -98,9 +98,9 @@ python mv-diffusion/One-2-3-45/download_ckpt.py
 Two steps required for 3D generation are as follows.
 
 1. Predict source views and construct cost volume (Choose one of the following two.)
-      - [Driven by a given prompt](#predict-source-views-driven-by-a-given-prompt)
+      - [Driven by a given prompt](#predict-source-views-and-construct-cost-volume-driven-by-a-given-reference-view-with-a-prompt)
 
-      - [Driven by a given reference view with a prompt](#predict-source-views-driven-by-a-given-reference-view-with-a-prompt)
+      - [Driven by a given reference view with a prompt](#predict-source-views-and-construct-cost-volume-driven-by-a-given-prompt)
 2. [GeoDream Training](#geodream-training)
 
 
