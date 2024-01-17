@@ -11,7 +11,9 @@
 
 
 </div>
-This is GeoDream extension of <a href="https://github.com/threestudio-project/threestudio"> threestudio</a>. The original implementation can be found <a href="https://github.com/baaivision/GeoDream/tree/master">at the master branch</a>. To use it, please install threestudio first and then install this extension in threestudio custom directory.
+This is GeoDream extension of <a href="https://github.com/threestudio-project/threestudio"> threestudio</a>. To use it, please install threestudio first and then install this extension in threestudio custom directory.
+
+NOTE: The original implementation has undergone more rigorous testing, and all results presented in the paper are obtained from this original implementation. If you aim for a strict alignment with the results in the paper, it is advisable to refer to the original implementation. The original implementation can be found <a href="https://github.com/baaivision/GeoDream/tree/master">at the master branch</a>.
 
 <!-- **NOTE**: The backbone (4D hash grid) and some hyperparameters of this implementation differ from those of the original one, so the results might be different.  -->
 
@@ -109,18 +111,18 @@ python mv-diffusion/One-2-3-45/download_ckpt.py
 
 # Quickstart
 
-These steps required for 3D generation are as follows.
+Two steps required for 3D generation are as follows.
 
-1. Predict source views (Choose one of the following two.)
-      - [Driven by a given prompt](#predict-source-views-driven-by-a-given-prompt)
-      - [Driven by a given reference view with a prompt](#predict-source-views-driven-by-a-given-reference-view-with-a-prompt)
-2. [Construct cost volume](#construct-cost-volume)
-3. [GeoDream Training](#geodream-training)
+1. Predict source views and construct cost volume (Choose one of the following two.)
+      - [Driven by a given prompt](#predict-source-views-and-construct-cost-volume-driven-by-a-given-reference-view-with-a-prompt)
+
+      - [Driven by a given reference view with a prompt](#predict-source-views-and-construct-cost-volume-driven-by-a-given-prompt)
+2. [GeoDream Training](#geodream-training)
 
 
-## Predict source views 
+## Predict source views and construct cost volume
 Choose one of the two.
-### Predict source views driven by a given reference view with a prompt
+### Predict source views and construct cost volume driven by a given reference view with a prompt
 ```bash
 conda activate geodream_mv
 cd ./mv-diffusion
@@ -130,21 +132,23 @@ sh run-volume-by-sd-zero123.sh "An astronaut riding a horse" "ref_imges/demo.png
 conda deactivate
 cd ..
 ```
-### Predict source views driven by a given prompt
+### Predict source views and construct cost volume driven by a given prompt
 ```bash
 conda activate geodream_mv
 cd ./mv-diffusion
 sh step1-run-mv.sh "An astronaut riding a horse"
 conda deactivate
+. venv/bin/activate
+sh step2-run-volume.sh "An astronaut riding a horse"
 cd ..
 ```
 
-## Construct cost volume
+<!-- ## Construct cost volume
 ```bash
 . venv/bin/activate
 cd ./mv-diffusion
 sh step2-run-volume.sh "An astronaut riding a horse"
-```
+``` -->
 
 ## GeoDream Training
 
@@ -159,6 +163,8 @@ sh step2-run-volume.sh "An astronaut riding a horse"
 Note: we compress these motion pictures for faster previewing.
 
 ```sh
+conda deactivate
+. venv/bin/activate
 # --------- Stage 1 (NeuS) --------- #
 # object generation with 512x512 NeuS rendering, ~25GB VRAM
 python launch.py --config custom/threestudio-geodream/configs/geodream-neus.yaml --train --gpu 0 system.prompt_processor.prompt="an astronaut riding a horse" system.geometry.init_volume_path="mv-diffusion/volume/An_astronaut_riding_a_horse/con_volume_lod_150.pth"
