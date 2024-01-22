@@ -5,6 +5,12 @@
 TEXT="$1"
 FILE_NAME=$(echo "$TEXT" | sed 's/ /_/g')
 
+if [ -e "volume/"$FILE_NAME ]; then
+    echo $FILE_NAME
+    echo "[Error] Directory volume/"$FILE_NAME "already exists."
+    exit 1
+fi
+
 cd MVDream
 echo "[Text Prompt] "$TEXT
 echo "[Save Project Name] "$FILE_NAME
