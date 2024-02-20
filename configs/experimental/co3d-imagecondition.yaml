@@ -16,7 +16,7 @@ data:
   use_mask: true
   box_crop: true
   box_crop_mask_thr: 0.4
-  box_crop_context: 0.1 # The amount of additional padding added to each dimention of the cropping bounding box, relative to vox size.
+  box_crop_context: 0.1 # The amount of additional padding added to each dimension of the cropping bounding box, relative to vox size.
   train_num_rays: 4096
   train_split: "train"
   val_split: "val"
